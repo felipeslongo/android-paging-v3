@@ -32,6 +32,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import okhttp3.internal.addHeaderLenient
 
 @ExperimentalCoroutinesApi
 class SearchRepositoriesActivity : AppCompatActivity() {
@@ -67,7 +68,10 @@ class SearchRepositoriesActivity : AppCompatActivity() {
     }
 
     private fun initAdapter() {
-        binding.list.adapter = adapter
+        binding.list.adapter = adapter.withLoadStateHeaderAndFooter(
+                header = ReposLoadStateAdapter {adapter.retry()},
+                footer = ReposLoadStateAdapter {adapter.retry()}
+        )
     }
 
     private fun search(query: String){
