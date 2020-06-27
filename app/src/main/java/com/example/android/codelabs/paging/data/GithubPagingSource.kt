@@ -23,7 +23,7 @@ class GithubPagingSource(
             val repos = response.items
             LoadResult.Page(
                     data = repos,
-                    prevKey = if (currentPage == 1) currentPage - 1 else null,
+                    prevKey = if (currentPage > 1) currentPage - 1 else null,
                     nextKey = if (repos.any()) currentPage + 1 else null
             )
         } catch (e: IOException) {
